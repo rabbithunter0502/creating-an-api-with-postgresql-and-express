@@ -1,4 +1,4 @@
-import dbInstance from "../database";
+import dbInstance from 'provider/database';
 
 export class Product {
     //#region properties
@@ -17,7 +17,7 @@ export class Product {
 }
 
 export class ProductStore {
-    async Index(): Promise<Product[]> {
+    async index(): Promise<Product[]> {
         try {
             const sql = 'SELECT * FROM Products';
             return this.#queryToDB<Product[]>(sql);
@@ -26,7 +26,7 @@ export class ProductStore {
         }
     }
 
-    async Show(id: string): Promise<Product> {
+    async show(id: string): Promise<Product> {
         try {
             const sql = `SELECT * FROM Products WHERE id=${id}`;
             const result = await this.#queryToDB<Product[]>(sql);
@@ -36,7 +36,7 @@ export class ProductStore {
         }
     }
 
-    async Create(product: Product): Promise<Product> {
+    async create(product: Product): Promise<Product> {
         try {
             const sql = `INSERT INTO products(name, price, category) values ('${product.name}', ${product.price}, '${product.category}')`;
             const result = await this.#queryToDB<Product[]>(sql);
@@ -45,7 +45,8 @@ export class ProductStore {
             throw new Error(`Cannot create Product: ${error}`)
         }
     }
-    async GetProductByCategory(category: string): Promise<Product[]> {
+
+    async getProductByCategory(category: string): Promise<Product[]> {
         try {
             const sql = ``;
             return await this.#queryToDB<Product[]>(sql);
@@ -54,12 +55,33 @@ export class ProductStore {
         }
     }
 
-    async GetTopPopularProduct(size: number): Promise<Product[]> {
+    async getTopPopularProduct(size: number): Promise<Product[]> {
         try {
             const sql = ``;
             return await this.#queryToDB<Product[]>(sql);
         } catch (error) {
             throw new Error(`Cannot get top popular product : ${error}`)
+        }
+    }
+
+    async edit(product: Product): Promise<Product> {
+        try {
+            const sql = `UPDATE Product SET (name, price, category)
+            = ('${product.name}', ${product.price}, '${product.category}') WHERE id = ${product.id}`;
+            const result = await this.#queryToDB<Product[]>(sql);
+            return result[0];
+        } catch (error) {
+            throw new Error(`Cannot update Product: ${error}`)
+        }
+    }
+
+    async remove(id: string): Promise<Product> {
+        try {
+            const sql = `DELETE * FROM Product WHERE id=${id}`;
+            const result = await this.#queryToDB<Product[]>(sql);
+            return result[0];
+        } catch (error) {
+            throw new Error(`Cannot delete Product by id: ${error}`)
         }
     }
 
@@ -75,9 +97,3 @@ export class ProductStore {
     }
 }
 
-// CREATE TABLE products(
-//     id SERIAL PRIMARY KEY,
-//     name VARCHAR(150),
-//     price real,
-//     category VARCHAR(100)
-// )

@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 import { Pool, PoolConfig } from 'pg'
-import { EnvConstant } from './constants/env.constant';
+import { EnvConstant } from 'constants/env.constant';
 
 dotenv.config();
 
@@ -23,7 +23,7 @@ const poolConfig: PoolConfig = {
 }
 
 switch (ENV) {
-    case ENV:
+    case EnvConstant.ENV_TEST:
         poolConfig.database = POSTGRES_DATABASE_TEST;
         break;
     case EnvConstant.ENV_DEV:

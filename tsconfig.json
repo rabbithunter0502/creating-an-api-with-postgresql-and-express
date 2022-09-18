@@ -11,8 +11,14 @@
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
-    "baseUrl": "./",
-    "paths": {},
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["src/*"],
+      "constants/*": ["src/constants/*"],
+      "handlers/*": ["src/handlers/*"],
+      "models/*": ["src/models/*"],
+      "provider/*": ["src/provider/*"],
+    },
     "types": [
       "node",
       "jasmine"
